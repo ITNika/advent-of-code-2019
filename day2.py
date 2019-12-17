@@ -1,36 +1,30 @@
-def perform_addition(program, operand_one_position, operand_two_position, result_position):
-	program[result_position] = (program[operand_one_position] + program[operand_two_position])
+import IntcodeComputer
+divider = "----------------------------------"
+print(divider)
+print("Day two part one")
+print(divider)
 
-def perform_multiplication(program, operand_one_position, operand_two_position, result_position):
-	program[result_position] = program[operand_one_position] * program[operand_two_position]
+intcode_computer = IntcodeComputer.IntcodeComputer("input-files/input_day2_1.txt")
+intcode_computer.set_memory(1, 12)
+intcode_computer.set_memory(2,2)
+intcode_computer.run_program()
+print("The value at address 0 is {}".format(intcode_computer.read_memory(0)))
 
+print(divider)
+print("Day two part two")
+print(divider)
 
-def run_program(program):
-	running = True
-	current_position = 0
-	current_value = program[current_position]
-	while running:
-		if current_value == 99:
-			print("Program reached the end.")
-			running = False
-		elif current_value == 1:
-			perform_addition(program, program[current_position + 1], program[current_position + 2], program[current_position + 3])
-			current_position += 4
-			current_value = program[current_position]
-		elif current_value == 2:
-			perform_multiplication(program, program[current_position + 1], program[current_position + 2], program[current_position + 3])
-			current_position +=4
-			current_value= program[current_position]
-		else:
-			print("Program found unknown opcode")
-			running = False
-
-
-file = open('input-files/input_day2_1.txt', 'r')
-input_string = str(file.readline())
-program = list(map(int, input_string.split(',')))
-
-program[1] = 12
-program[2] = 2
-run_program(program)
-print("The value on position 0 is {}.".format(program[0]))
+verb = 0
+noun = 0
+while verb <= 99:
+    while noun <= 99:
+        intcode_computer = IntcodeComputer.IntcodeComputer("input-files/input_day2_1.txt")
+        intcode_computer.set_memory(1, noun)
+        intcode_computer.set_memory(2, verb)
+        intcode_computer.run_program()
+        if intcode_computer.read_memory(0) == 19690720:
+            print("The noun is {} and the verb is {}".format(noun, verb))
+            exit(0)
+        noun += 1
+    noun = 0
+    verb += 1
